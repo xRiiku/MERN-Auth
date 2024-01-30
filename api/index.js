@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import userRoutes from './routes/user.route.js'
 
 dotenv.config() //leer la configuración del archivo .env
 /* Conexión a la base de datos */
@@ -18,3 +19,6 @@ const app = express() // Inicializamos el servidor
 app.listen(3000, ()=>{
     console.log('Server listening on port 3000')
 })
+
+/* endPoint */
+app.use("/api/user", userRoutes)

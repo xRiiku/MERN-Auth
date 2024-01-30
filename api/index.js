@@ -2,8 +2,9 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
-dotenv.config()
-mongoose.connect(process.env.MONGO)
+dotenv.config() //leer la configuración del archivo .env
+/* Conexión a la base de datos */
+mongoose.connect(process.env.MONGO) // datos de la base de datos en el archivo .env, variable MONGO
 .then(()=>{
     console.log("Connected to MongoDB")
 })
@@ -11,8 +12,9 @@ mongoose.connect(process.env.MONGO)
     console.log(err)
 })
 
-const app = express()
+const app = express() // Inicializamos el servidor
 
+/* Asignamos un puerto al servidor */
 app.listen(3000, ()=>{
     console.log('Server listening on port 3000')
 })

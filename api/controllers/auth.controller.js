@@ -1,4 +1,4 @@
-import User from "../modules/user.model.js"
+import User from "../models/user.model.js"
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { errorHandler } from '../utils/error.js'
@@ -35,5 +35,41 @@ export const signin = async (req, res, next) => {
         //Añadimos el token a las cookies del navegador con httpOnly a true para que ninguna aplicación de terceros pueda modificar el token
     }catch(error){
         next(error) //Obtenemos el error de nuestro middleWare
+    }
+}
+
+export const google = async (req, res, next) => {
+    try{
+        const user = await User.findOne({email: req.body.email})
+        if(user){
+            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET)
+            const { password: hashedPassword, ...rest} = user._doc
+            const expiryDate = new Date(Date.now() + 3600000)
+            res.cookie('access_token', token, {httpOnly:true, expires: expiryDate})
+        }else{
+            const generatedPassword = Math.random().toString(36).slice(-8) 
+            // 36 = numeros del 0 al 9 y letras de la A a la Z
+            // slice(-8) Crea la contraseña de 8 caracteres
+            const hashedPassword = bcryptjs.hashSync(generatedPassword, 10)
+            const newUser = new User({ 
+                username: req.body.name.split(" ").join("").toLowerCase() + Math.random.toString(36).slice(-8), 
+                email: req.body.email, 
+                password: hashedPassword, 
+                profilePicture: req.body.photo 
+            })
+            await newUser.save()
+            const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET)
+            const { password: hashedPassword2, ...rest } = newUser._doc
+            const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+            res
+            .cookie('access_token', token, {
+                httpOnly: true,
+                expires: expiryDate,
+            })
+            .status(200)
+            .json(rest);
+        }
+    }catch (error){
+        next(error)
     }
 }

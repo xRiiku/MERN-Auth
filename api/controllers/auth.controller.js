@@ -45,14 +45,21 @@ export const google = async (req, res, next) => {
             const token = jwt.sign({id: user._id}, process.env.JWT_SECRET)
             const { password: hashedPassword, ...rest} = user._doc
             const expiryDate = new Date(Date.now() + 3600000)
-            res.cookie('access_token', token, {httpOnly:true, expires: expiryDate})
+            res
+            .cookie('access_token', token, 
+            {
+                httpOnly:true, 
+                expires: expiryDate
+            })
+            .status(200)
+            .json(rest)
         }else{
-            const generatedPassword = Math.random().toString(36).slice(-8) 
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
             // 36 = numeros del 0 al 9 y letras de la A a la Z
             // slice(-8) Crea la contraseña de 8 caracteres
             const hashedPassword = bcryptjs.hashSync(generatedPassword, 10)
             const newUser = new User({ 
-                username: req.body.name.split(" ").join("").toLowerCase() + Math.random.toString(36).slice(-8), 
+                username: req.body.name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-8), 
                 email: req.body.email, 
                 password: hashedPassword, 
                 profilePicture: req.body.photo 

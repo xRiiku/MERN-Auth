@@ -7,7 +7,7 @@ export default function About() {
       <p className='mb-4 text-slate-700'>
         This is a <span className="font-bold">MERN (MongoDB,
         Express, React, Node.js)</span> stack application with authentication. It
-        <span className="font-bold">allow users to sign up, log in, delete and log out</span>, and provides access to
+        <span className="font-bold"> allow users to sign up, log in, delete and log out</span>, and provides access to
         protected routes <span className="font-bold">only for authenticated users</span>.
       </p>
       <p className='mb-4 text-slate-700'>

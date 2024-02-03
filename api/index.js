@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 /* Instalamos nodemon para no tener que parar y arrancar el servidor en cada cambio que hagamos */
 import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/auth.route.js'
+import cookieParser from 'cookie-parser'
 
 dotenv.config() //leer la configuración del archivo .env
 /* Conexión a la base de datos */
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGO) // datos de la base de datos en el archivo .
 
 const app = express() // Inicializamos el servidor
 app.use(express.json()) //Permite que JSON sea la entrada (de datos) de nuestro backend
+app.use(cookieParser())
 
 
 /* Asignamos un puerto al servidor */

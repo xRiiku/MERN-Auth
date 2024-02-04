@@ -142,7 +142,8 @@ export default function Profile() {
           </p>
         <input defaultValue={currentUser.username} type="text" id="username" placeholder="Username" className="bg-slate-100 rounded-lg p-3" onChange={handleChange} />
         <input defaultValue={currentUser.email} type="email" id="email" placeholder="Email" className="bg-slate-100 rounded-lg p-3" onChange={handleChange} />
-        <input type="password" id="password" placeholder="Password" className="bg-slate-100 rounded-lg p-3" onChange={handleChange} />
+        <input type="password" id="password" placeholder="New Password" className="bg-slate-100 rounded-lg p-3" onChange={handleChange} />
+        <input type="password" id="confirmPassword" placeholder="Confirm New Password" className="bg-slate-100 rounded-lg p-3" onChange={handleChange} />
         <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
           {loading ? 'Loading...' : 'Update'}
         </button>
@@ -151,7 +152,7 @@ export default function Profile() {
         <span onClick={handleDeleteAccount} className='text-red-500 cursor-pointer'>Delete Account</span>
         <span onClick={handleSignOut} className='text-red-500 cursor-pointer'>Sign Out</span>
       </div>
-      <p className='text-red-500 mt-5'>{error && 'Something went wrong!'}</p>
+      <p className='text-red-500 mt-5'>{error ? error.message || 'Something went wrong!' : ""}</p>
       <p className='text-green-700 mt-5'>{updateSuccess && 'User is updated successfully!'}</p>
     </div>
   )

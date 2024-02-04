@@ -5,7 +5,8 @@ import { errorHandler } from '../utils/error.js'
 
 /* Registro de usuario en la base de datos */
 export const signup = async (req, res, next) => {
-    const { username, email, password } = req.body //obtenemos los datos desde el body
+    const { username, email, password, confirmPassword } = req.body //obtenemos los datos desde el body
+    if (password !== confirmPassword) return next(errorHandler(400, 'Passwords do not match'));
     const hashedPassword = bcryptjs.hashSync(password, 10) // encriptamos la contraseña
     const newUser = new User({username, email, password: hashedPassword})
     try{

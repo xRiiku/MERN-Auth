@@ -28,8 +28,8 @@ app.listen(3000, ()=>{
 })
 
 /* endPoint */
-app.use("/api/user", userRoutes)
-app.use("/api/auth", authRoutes)
+app.use("/user", userRoutes)
+app.use("/auth", authRoutes)
 
 /* Creamos un middleWare para el manejo de errores */
 app.use((err, req, res, next)=>{
